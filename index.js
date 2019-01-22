@@ -34,11 +34,11 @@ function render(){
     console.log('rendering question-results view');
     $('.question-results').html(generateQuestionResults());
     renderQuestionResults();
-  }
-  else { 
+  } else {
     renderResults();
   }
 }
+
 
 function renderHomeView(){
   // update HTML based on STORE
@@ -51,7 +51,7 @@ function renderQuestionView(){
 
   return ` 
   <h2> Question: ${STORE.currentQuestion + 1}</h2>
-  <p> Your current score is ${STORE.score}</p>
+  <p> Your current score is ${STORE.score} out of ${STORE.currentQuestion}</p>
   <h2> ${questions[STORE.currentQuestion].text}</h2>
   <form class = 'js-question'>
     <input type="radio" name="question" value="1" id="option1" data-index = 0> 
@@ -71,7 +71,7 @@ function generateQuestionResults(){
   
   return ` 
     <h2> Question: ${STORE.currentQuestion + 1}</h2>
-    <p> Your current score is ${STORE.score}</p>
+    <p> Your current score is ${STORE.score} out of ${STORE.currentQuestion + 1}</p>
     <h2> ${questions[STORE.currentQuestion].text}</h2>
     <form class = 'js-question-results-form'>
       <input type="radio" name="question" value="1" id="option1" data-index = 0> 
@@ -120,6 +120,16 @@ function renderCorrect(){
 
 function renderResults(){
   // update HTML based on STORE
+  $('home').empty();
+  $('questions').empty();
+  $('question-results').empty();
+  $('end-results').html(generateEndResultsHtml());
+}
+
+function generateEndResultsHtml(){
+  return `
+  <h2>You got ${STORE.score} out of ${STORE.currentQuestion} questions right!<h2>
+  <p>Want to try again?</p>`;
 }
 
 function renderQuestion(){
@@ -170,11 +180,14 @@ function checkAnswer(){
 
 function handleNextQuestion(){
   // set up event listener on button, add 1 to current question count. Render.
-  $('.js-question-results').on('submit', '.js-question-results-form', function(event){
+  $('.question-results').on('submit', '.js-question-results-form', function(event){
     event.preventDefault();
     console.log('moving on...');
     STORE.currentQuestion++;
-    STORE.currentView = 'question';
+    if (STORE.currentQuestion === 5){
+      STORE.currentView = 'results'
+    } else{
+      STORE.currentView = 'question';}
     render();
   });
 }
