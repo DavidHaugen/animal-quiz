@@ -24,12 +24,15 @@ const STORE = {
 function render(){
   // check current view (home, question, question-results, results) and runs correct render function
   if(STORE.currentView === 'home'){
+    console.log('rendering home view');
     renderHomeView();
   } else if(STORE.currentView === 'question'){
-    console.log('showing question view');
+    console.log('rendering question view');
     $('.question').html(renderQuestionView());
   }
   else if(STORE.currentView === 'question-results'){
+    console.log('rendering question-results view');
+    $('.question-results').html(generateQuestionResults());
     renderQuestionResults();
   }
   else { 
@@ -48,23 +51,55 @@ function renderQuestionView(){
 
   return ` 
   <h2> Question: ${STORE.currentQuestion + 1}</h2>
+  <p> Your current score is ${STORE.score}</p>
   <h2> ${questions[STORE.currentQuestion].text}</h2>
   <form class = 'js-question'>
     <input type="radio" name="question" value="1" id="option1" data-index = 0> 
-    <label for ="option1"> ${questions[STORE.currentQuestion].answers[0]}</label> <br>
+    <label for ="option1" id = 'label0'> ${questions[STORE.currentQuestion].answers[0]}</label> <br>
     <input type="radio" name="question" value="2" id="option2" data-index = 1> 
-    <label for = 'option2'>${questions[STORE.currentQuestion].answers[1]}</label><br>
+    <label for = 'option2' id = 'label1'>${questions[STORE.currentQuestion].answers[1]}</label><br>
     <input type="radio" name="question" value="3" id="option3" data-index = 2> 
-    <label for="option3">${questions[STORE.currentQuestion].answers[2]}</label><br>
+    <label for="option3" id = 'label2'>${questions[STORE.currentQuestion].answers[2]}</label><br>
     <input type="radio" name="question" value="4" id="option4" data-index = 3> 
-    <label for="option4">${questions[STORE.currentQuestion].answers[3]}</label><br>
+    <label for="option4" id = 'label3'>${questions[STORE.currentQuestion].answers[3]}</label><br>
    <button type="submit">Submit answer</button>
   </form> `;
 }
 
+function generateQuestionResults(){
+  $('.question').empty();
+  
+  return ` 
+    <h2> Question: ${STORE.currentQuestion + 1}</h2>
+    <p> Your current score is ${STORE.score}</p>
+    <h2> ${questions[STORE.currentQuestion].text}</h2>
+    <form class = 'js-question-results-form'>
+      <input type="radio" name="question" value="1" id="option1" data-index = 0> 
+      <label for ="option1" id = 'label0'> ${questions[STORE.currentQuestion].answers[0]}</label> <br>
+      <input type="radio" name="question" value="2" id="option2" data-index = 1> 
+      <label for = 'option2' id = 'label1'>${questions[STORE.currentQuestion].answers[1]}</label><br>
+      <input type="radio" name="question" value="3" id="option3" data-index = 2> 
+      <label for="option3" id = 'label2'>${questions[STORE.currentQuestion].answers[2]}</label><br>
+      <input type="radio" name="question" value="4" id="option4" data-index = 3> 
+      <label for="option4" id = 'label3'>${questions[STORE.currentQuestion].answers[3]}</label><br>
+     <button type="submit">Next Question</button>
+    </form> `;
+}
+
 function renderQuestionResults(){
-  const answer = checkAnswer() ? renderCorrect() : renderIncorrect();
-  if(answer){}
+  // return checkAnswer() ? renderCorrect() : renderIncorrect();
+
+  if(checkAnswer()){
+    STORE.score++;
+    $('.question-results').html(generateQuestionResults());
+    renderCorrect();
+
+  } else {
+    renderIncorrect();
+
+  }
+  $('input[type=radio]').attr('disabled', true);
+
   // update HTML based on STORE
   // add class highlight to correct answer
  
@@ -73,11 +108,14 @@ function renderQuestionResults(){
 }
 function renderIncorrect(){
   //STORE.userAnswer
-  
+  console.log('Nope');
+  $(`#label${STORE.userAnswer}`).addClass('strikethrough');
+  $(`#label${questions[STORE.currentQuestion].correct.toString()}`).addClass('correctAnswer');
 }
 
 function renderCorrect(){
-
+  console.log('You did it!');
+  $(`#label${questions[STORE.currentQuestion].correct.toString()}`).addClass('correctAnswer');
 }
 
 function renderResults(){
@@ -111,7 +149,7 @@ function handleQuestionSubmit(){
   // Update score. Render.  
   $('.question').on('submit','.js-question', function(ev){
     ev.preventDefault();
-    STORE.userAnswer = $('input:checked').attr('data-index');
+    STORE.userAnswer = parseInt($('input:checked').attr('data-index'), 10);
     STORE.currentView = 'question-results';
     console.log(STORE.userAnswer);
     render();
@@ -120,22 +158,25 @@ function handleQuestionSubmit(){
 
 
 function checkAnswer(){
-  if(STORE.userAnswer === questions[STORE.currentQuestion].correct){
-    STORE.score++;
-    return true;
-  } else {
-    return false;
-  }
+  return STORE.userAnswer === questions[STORE.currentQuestion].correct;
+
+  // if(STORE.userAnswer === questions[STORE.currentQuestion].correct){
+  // STORE.score++;
+  //   return true;
+  // } else {
+  //   return false;
+  // }
 }
 
 function handleNextQuestion(){
   // set up event listener on button, add 1 to current question count. Render.
-  $().on('next_question', function(ev){
+  $('.js-question-results').on('submit', '.js-question-results-form', function(event){
+    event.preventDefault();
+    console.log('moving on...');
     STORE.currentQuestion++;
     STORE.currentView = 'question';
     render();
   });
-  
 }
 
 function handleRestart(){
@@ -154,7 +195,7 @@ function main(){
   currentQuestionCount();
   renderQuestion();
   handleQuestionSubmit();
-
+  handleNextQuestion();
 }
 
 $(main());
