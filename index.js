@@ -96,6 +96,7 @@ function handleQuestionSubmit(){
 
 function checkAnswer(){
   if(STORE.userAnswer === questions[STORE.currentQuestion].correct){
+    STORE.score++;
     return true;
   } else {
     return false;
@@ -104,12 +105,23 @@ function checkAnswer(){
 
 function handleNextQuestion(){
   // set up event listener on button, add 1 to current question count. Render.
+  $().on('next_question', function(ev){
+    STORE.currentQuestion++;
+    STORE.currentView = 'question';
+    render();
+  })
   
 }
 
 function handleRestart(){
   // Set STORE back to default, then render the page again. 
   // run currentQuestionCount();
+  STORE = {
+    currentView: 'home',
+    userAnswer: 'null',
+    currentQuestion: 'null',
+    score: 0,
+ };
 }
 
 function main(){
