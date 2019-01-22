@@ -26,7 +26,7 @@ function render(){
   if(STORE.currentView === 'home'){
     renderHomeView();
   } else if(STORE.currentView === 'question'){
-    renderQuestionView();
+    $('.question').html(renderQuestionView());
   }
   else if(STORE.currentView === 'question-results'){
     renderQuestionResults();
@@ -42,16 +42,21 @@ function renderHomeView(){
 
 function renderQuestionView(){
   // update HTML based on STORE. Display that value +1 to the user.
+  $('.home').empty();
+  $('.question-results').empty();
+
   return ` 
+  <h2> Question: ${STORE.currentQuestion + 1}</h2>
+  <h2> ${questions[STORE.currentQuestion].text}</h2>
   <form class = 'js-question'>
     <input type="radio" name="question" value="1" id="option1" data-index = 0> 
-    <label for ="option1"> ${question[STORE.currentQuestion].answer[0]}</label> <br>
+    <label for ="option1"> ${questions[STORE.currentQuestion].answers[0]}</label> <br>
     <input type="radio" name="question" value="2" id="option2" data-index = 1> 
-    <label for = 'option2'>${question[STORE.currentQuestion].answer[1]}</label><br>
+    <label for = 'option2'>${questions[STORE.currentQuestion].answers[1]}</label><br>
     <input type="radio" name="question" value="3" id="option3" data-index = 2> 
-    <label for="option3">${question[STORE.currentQuestion].answer[2]}</label><br>
+    <label for="option3">${questions[STORE.currentQuestion].answers[2]}</label><br>
     <input type="radio" name="question" value="3" id="option4" data-index = 3> 
-    <label for="option4">${question[STORE.currentQuestion].answer[3]}</label><br>
+    <label for="option4">${questions[STORE.currentQuestion].answers[3]}</label><br>
    <button type="submit">Submit answer</button>
   </form> `;
 }
