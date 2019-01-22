@@ -21,3 +21,77 @@ const STORE = {
   score: 0,
 };
 
+function render(){
+  // check current view (home, question, question-results, results) and runs correct render function
+}
+
+function renderHomeView(){
+  // update HTML based on STORE
+}
+
+function renderQuestionView(){
+  // update HTML based on STORE. Display that value +1 to the user.
+}
+
+function renderQuestionResults(){
+  // update HTML based on STORE
+}
+
+function renderResults(){
+  // update HTML based on STORE
+}
+
+function renderQuestion(){
+  // show current question and display options to user. 
+}
+
+function handleStart(){
+  // update the current view to question, set current Question to 0, then render the page again. 
+  STORE.currentView = 'question';
+  STORE.currentQuestion = 0;  
+  render();
+}
+
+function currentQuestionCount(){
+  // check Store for currentQuestion.  
+  return STORE.currentQuestion;
+}
+
+function handleQuestionSubmit(){
+  // set up event listener on button, run check answer function. If question count === 4, 
+  // change view to results. Otherwise, change view to question-results. 
+  // Update score. Render.  
+  if (checkAnswer()){
+
+  } else {
+    
+  }
+}
+
+function checkAnswer(){
+  if(STORE.userAnswer === questions[STORE.currentQuestion].correct){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function handleNextQuestion(){
+  // set up event listener on button, add 1 to current question count. Render.
+}
+
+function handleRestart(){
+  // Set STORE back to default, then render the page again. 
+  // run currentQuestionCount();
+}
+
+function main(){
+  render();
+  // handleStart();
+  currentQuestionCount();
+  renderQuestion();
+  handleQuestionSubmit();
+
+}
+
+$(main());
