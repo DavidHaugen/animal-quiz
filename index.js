@@ -23,16 +23,16 @@ const STORE = {
 
 function render(){
   // check current view (home, question, question-results, results) and runs correct render function
-  if(currentView === 'home'){
+  if(STORE.currentView === 'home'){
     renderHomeView();
-  } else if(currentView === 'question'){
+  } else if(STORE.currentView === 'question'){
     renderQuestionView();
   }
-   else if(currentView === 'question-results'){
+  else if(STORE.currentView === 'question-results'){
     renderQuestionResults();
   }
-   else { 
-     renderResults();
+  else { 
+    renderResults();
   }
 }
 
@@ -47,9 +47,9 @@ function renderQuestionView(){
 function renderQuestionResults(){
   return checkAnswer() ? renderCorrect() : renderIncorrect();
   // update HTML based on STORE
-    // add class highlight to correct answer
+  // add class highlight to correct answer
  
-    // css highlight red to userAnswer && highlight correct
+  // css highlight red to userAnswer && highlight correct
  
 }
 function renderIncorrect(){
@@ -90,7 +90,7 @@ function handleQuestionSubmit(){
     STORE.userAnswer = $(this).attr('data-index');
     STORE.currentView = 'question-results';
     render();
-  })
+  });
 }
 
 
@@ -109,19 +109,18 @@ function handleNextQuestion(){
     STORE.currentQuestion++;
     STORE.currentView = 'question';
     render();
-  })
+  });
   
 }
 
 function handleRestart(){
   // Set STORE back to default, then render the page again. 
   // run currentQuestionCount();
-  STORE = {
-    currentView: 'home',
-    userAnswer: 'null',
-    currentQuestion: 'null',
-    score: 0,
- };
+  STORE.currentView = 'home';
+  STORE.userAnswer = 'null';
+  STORE.currentQuestion = 'null';
+  STORE.score = 0;
+  render();
 }
 
 function main(){
