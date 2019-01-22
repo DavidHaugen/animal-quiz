@@ -62,7 +62,8 @@ function renderQuestionView(){
 }
 
 function renderQuestionResults(){
-  return checkAnswer() ? renderCorrect() : renderIncorrect();
+  const answer = checkAnswer() ? renderCorrect() : renderIncorrect();
+  if(answer){}
   // update HTML based on STORE
   // add class highlight to correct answer
  
@@ -70,7 +71,8 @@ function renderQuestionResults(){
  
 }
 function renderIncorrect(){
-
+  //STORE.userAnswer
+  
 }
 
 function renderCorrect(){
@@ -88,9 +90,13 @@ function renderQuestion(){
 
 function handleStart(){
   // update the current view to question, set current Question to 0, then render the page again. 
+  $('#start').on('click', function(ev){
+    console.log('test');
+  ev.preventDefault();
   STORE.currentView = 'question';
   STORE.currentQuestion = 0;  
   render();
+})
 }
 
 function currentQuestionCount(){
@@ -142,7 +148,7 @@ function handleRestart(){
 
 function main(){
   render();
-  // handleStart();
+  handleStart();
   currentQuestionCount();
   renderQuestion();
   handleQuestionSubmit();
