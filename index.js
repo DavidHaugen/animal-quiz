@@ -23,6 +23,17 @@ const STORE = {
 
 function render(){
   // check current view (home, question, question-results, results) and runs correct render function
+  if(currentView === 'home'){
+    renderHomeView();
+  } else if(currentView === 'question'){
+    renderQuestionView();
+  }
+   else if(currentView === 'question-results'){
+    renderQuestionResults();
+  }
+   else { 
+     renderResults();
+  }
 }
 
 function renderHomeView(){
@@ -34,7 +45,19 @@ function renderQuestionView(){
 }
 
 function renderQuestionResults(){
+  return checkAnswer() ? renderCorrect() : renderIncorrect();
   // update HTML based on STORE
+    // add class highlight to correct answer
+ 
+    // css highlight red to userAnswer && highlight correct
+ 
+}
+function renderIncorrect(){
+
+}
+
+function renderCorrect(){
+
 }
 
 function renderResults(){
@@ -43,6 +66,7 @@ function renderResults(){
 
 function renderQuestion(){
   // show current question and display options to user. 
+  
 }
 
 function handleStart(){
@@ -61,12 +85,14 @@ function handleQuestionSubmit(){
   // set up event listener on button, run check answer function. If question count === 4, 
   // change view to results. Otherwise, change view to question-results. 
   // Update score. Render.  
-  if (checkAnswer()){
-
-  } else {
-    
-  }
+  $('input[type="radio"]').submit(function(ev){
+    ev.preventDefault();
+    STORE.userAnswer = $(this).attr('data-index');
+    STORE.currentView = 'question-results';
+    render();
+  })
 }
+
 
 function checkAnswer(){
   if(STORE.userAnswer === questions[STORE.currentQuestion].correct){
@@ -78,6 +104,7 @@ function checkAnswer(){
 
 function handleNextQuestion(){
   // set up event listener on button, add 1 to current question count. Render.
+  
 }
 
 function handleRestart(){
