@@ -39,15 +39,15 @@ function render(){
     console.log('rendering question view');
     $('.question').html(renderQuestionView());
     if(STORE.currentQuestion === 4){
-      $("#btn").prop('value', 'View Results');
+      $('#btn').prop('value', 'View Results');
     }
   }
   else if(STORE.currentView === 'question-results'){
     console.log('rendering question-results view');
     $('.question-results').html(generateQuestionResults());
     renderQuestionResults();
-  } else {
-    console.log("this is the end");
+  } else if (STORE.currentView === 'end-results'){
+    console.log('this is the end');
     renderResults();
   }
 }
@@ -132,15 +132,16 @@ function renderCorrect(){
 
 function renderResults(){
   // update HTML based on STORE
-  $('home').empty();
-  $('questions').empty();
-  $('question-results').empty();
-  $('end-results').html(generateEndResultsHtml());
+  console.log('rendering final results page');
+  $('.home').empty();
+  $('.question').empty();
+  $('.question-results').empty();
+  $('.end-results').html(generateEndResultsHtml());
 }
 
 function generateEndResultsHtml(){
   return `
-  <h2>You got ${STORE.score} out of ${STORE.currentQuestion} questions right!<h2>
+  <h2>You got ${STORE.score} out of ${STORE.currentQuestion + 1} questions right!<h2>
   <p>Want to try again?</p>`;
 }
 
@@ -185,9 +186,8 @@ function handleFinalResults(){
     ev.preventDefault();
     console.log('handled final');
     render();
-  })
+  });
 }
-
 
 function checkAnswer(){
   return STORE.userAnswer === questions[STORE.currentQuestion].correct;
