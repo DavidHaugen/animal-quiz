@@ -1,7 +1,13 @@
 .strikethrough{
     color: red;
+        
 }
-
+.strikethrough::before{
+    content: "WROONG:    ";
+}
 .correctAnswer{
     color: green;
+}
+.correctAnswer::before{
+    content: "CORRECT:    ";
 }

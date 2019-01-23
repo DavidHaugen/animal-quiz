@@ -2,16 +2,25 @@
 /* global $ */
 
 const questions = [
-  {number: 1, text: 'Where is a shrimp\'s heart located?', answers:[
-    'In its head', 'In its tail', 'In its body', 'In its legs'], correct: 0},
-  {number: 2, text: 'How many noses does a slug have?', answers: [
-    '3', '1', '12','4'], correct: 3},
-  {number: 3, text: 'What is a rhinoceros\' horn made of?', answers: 
-  ['bone', 'hair', 'rock', 'skin'], correct: 1},
-  {number: 4, text: 'How many glasses of milk can a cow produce in its lifetime?', answers: [
-    'There is not limit', '500,000', '5', '200,000'], correct: 3},
-  {number: 5, text: 'How loud is a sperm whale\'s echolocation?', answers: [
-    'As loud as a car horn', 'As loud as a lawn mower', 'As loud as a whisper','As loud as a rocket launch'], correct: 3},
+  {number: 1, 
+    text: 'Where is a shrimp\'s heart located?', 
+    answers:['In its head', 'In its tail', 'In its body', 'In its legs'], 
+    correct: 0},
+  {number: 2, 
+    text: 'How many noses does a slug have?', 
+    answers: ['3', '1', '12','4'], 
+    correct: 3},
+  {number: 3, 
+    text: 'What is a rhinoceros\' horn made of?', 
+    answers: ['bone', 'hair', 'rock', 'skin'], 
+    correct: 1},
+  {number: 4, 
+    text: 'How many glasses of milk can a cow produce in its lifetime?', 
+    answers: ['There is not limit', '500,000', '5', '200,000'], 
+    correct: 3},
+  {number: 5, text: 'How loud is a sperm whale\'s echolocation?', 
+    answers: ['As loud as a car horn', 'As loud as a lawn mower', 'As loud as a whisper','As loud as a rocket launch'], 
+    correct: 3},
 ];
 
 const STORE = {
@@ -54,7 +63,7 @@ function renderQuestionView(){
   <p> Your current score is ${STORE.score} out of ${STORE.currentQuestion}</p>
   <h2> ${questions[STORE.currentQuestion].text}</h2>
   <form class = 'js-question'>
-    <input type="radio" name="question" value="1" id="option1" data-index = 0> 
+    <input type="radio" name="question" value="1" id="option1" data-index = 0 required> 
     <label for ="option1" id = 'label0'> ${questions[STORE.currentQuestion].answers[0]}</label> <br>
     <input type="radio" name="question" value="2" id="option2" data-index = 1> 
     <label for = 'option2' id = 'label1'>${questions[STORE.currentQuestion].answers[1]}</label><br>
@@ -74,7 +83,7 @@ function generateQuestionResults(){
     <p> Your current score is ${STORE.score} out of ${STORE.currentQuestion + 1}</p>
     <h2> ${questions[STORE.currentQuestion].text}</h2>
     <form class = 'js-question-results-form'>
-      <input type="radio" name="question" value="1" id="option1" data-index = 0> 
+      <input type="radio" name="question" value="1" id="option1" data-index = 0 required> 
       <label for ="option1" id = 'label0'> ${questions[STORE.currentQuestion].answers[0]}</label> <br>
       <input type="radio" name="question" value="2" id="option2" data-index = 1> 
       <label for = 'option2' id = 'label1'>${questions[STORE.currentQuestion].answers[1]}</label><br>
@@ -82,7 +91,7 @@ function generateQuestionResults(){
       <label for="option3" id = 'label2'>${questions[STORE.currentQuestion].answers[2]}</label><br>
       <input type="radio" name="question" value="4" id="option4" data-index = 3> 
       <label for="option4" id = 'label3'>${questions[STORE.currentQuestion].answers[3]}</label><br>
-     <button type="submit">Next Question</button>
+      <button type="submit" id="btn">Next Question</button>
     </form> `;
 }
 
@@ -93,10 +102,11 @@ function renderQuestionResults(){
     STORE.score++;
     $('.question-results').html(generateQuestionResults());
     renderCorrect();
-
   } else {
     renderIncorrect();
-
+  }
+  if(STORE.currentQuestion === 4){
+    $("#btn").text('View Results');
   }
   $('input[type=radio]').attr('disabled', true);
 
@@ -211,4 +221,5 @@ function main(){
   handleNextQuestion();
 }
 
-$(main());
+$(main);
+///comment
