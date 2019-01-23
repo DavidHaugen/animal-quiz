@@ -61,10 +61,15 @@ function renderHomeView(){
 }
 
 function generateHomeView(){
-  return `<h1 role="header">Animal quiz!</h1>
+  return `
+  <div class="row">
+  <div class="col-12">
+  <h1 role="header">Animal quiz!</h1>
   <form class = 'js-start-quiz'>
       <button type="submit" id = 'start-button'>Start Quiz</button>
-  </form>`;
+  </form>
+  </div>
+  </div>`;
 }
 
 function renderQuestionView(){
@@ -72,9 +77,11 @@ function renderQuestionView(){
   $('.home').empty();
   $('.question-results').empty();
 
-  return ` 
-  <h2> Question: ${STORE.currentQuestion + 1}</h2>
+  return `     <div class="row">
+  <div class="col-12">
+  <h1> Question: ${STORE.currentQuestion + 1}</h1>
   <p> Your current score is ${STORE.score} out of ${STORE.currentQuestion}</p>
+  <div class = 'questionBox'>
   <h2> ${questions[STORE.currentQuestion].text}</h2>
   <form class = 'js-question'>
     <input type="radio" name="question" value="1" id="option1" data-index = 0 required> 
@@ -85,16 +92,22 @@ function renderQuestionView(){
     <label for="option3" id = 'label2'>${questions[STORE.currentQuestion].answers[2]}</label><br>
     <input type="radio" name="question" value="4" id="option4" data-index = 3> 
     <label for="option4" id = 'label3'>${questions[STORE.currentQuestion].answers[3]}</label><br>
-   <input type="submit" id="btn" value = "Next Question">
-  </form> `;
+    <button type="submit" id="btn" class = 'nextButton'> Next Question</button>
+  </form> 
+  </div>
+  </div>
+  </div>`;
 }
 
 function generateQuestionResults(){
   $('.question').empty();
   
   return ` 
-    <h2> Question: ${STORE.currentQuestion + 1}</h2>
+  <div class="row">
+  <div class="col-12">
+    <h1> Question: ${STORE.currentQuestion + 1}</h1>
     <p> Your current score is ${STORE.score} out of ${STORE.currentQuestion + 1}</p>
+    <div class = 'questionBox'>
     <h2> ${questions[STORE.currentQuestion].text}</h2>
     <form class = 'js-question-results-form'>
       <input type="radio" name="question" value="1" id="option1" data-index = 0 required> 
@@ -105,8 +118,11 @@ function generateQuestionResults(){
       <label for="option3" id = 'label2'>${questions[STORE.currentQuestion].answers[2]}</label><br>
       <input type="radio" name="question" value="4" id="option4" data-index = 3> 
       <label for="option4" id = 'label3'>${questions[STORE.currentQuestion].answers[3]}</label><br>
-      <button type="submit" id="btn">Next Question</button>
-    </form> `;
+      <button type="submit" id="btn" class = 'nextButton'>Next Question</button>
+    </form> 
+    </div>
+    </div>
+    </div>`;
 }
 
 function renderQuestionResults(){
@@ -137,7 +153,7 @@ function renderIncorrect(){
 
 function renderCorrect(){
   console.log('You did it!');
-  $(`#label${questions[STORE.currentQuestion].correct.toString()}`).addClass('correctAnswer');
+  $(`#label${questions[STORE.currentQuestion].correct.toString()}`).addClass('userCorrect');
 }
 
 function renderResults(){
@@ -151,9 +167,13 @@ function renderResults(){
 
 function generateEndResultsHtml(){
   return `
+  <div class="row">
+  <div class="col-12">
   <h2>You got ${STORE.score} out of ${STORE.currentQuestion + 1} questions right!<h2>
   <p>Want to try again?</p>
-  <button id="restartBtn">Replay</button>`;
+  <button id="restartBtn">Replay</button>
+  </div>
+  </div>`;
 }
 
 function renderQuestion(){
