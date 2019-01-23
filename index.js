@@ -211,5 +211,5 @@ function main(){
   handleNextQuestion();
 }
 
-$(main());
+$(main);
 ///comment
