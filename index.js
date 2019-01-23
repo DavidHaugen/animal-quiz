@@ -52,10 +52,15 @@ function render(){
   }
 }
 
-function renderHomeView(){
+function clearAllForms(){
+  $('.home').empty();
   $('.question-results').empty();
   $('.question').empty();
   $('.end-results').empty();
+}
+
+function renderHomeView(){
+  clearAllForms();
   $('.home').html(generateHomeView());
   // update HTML based on STORE
 }
@@ -74,21 +79,21 @@ function generateHomeView(){
 
 function renderQuestionView(){
   // update HTML based on STORE. Display that value +1 to the user.
-  $('.home').empty();
-  $('.question-results').empty();
+  clearAllForms();
 
   return generateQuestions();
 }
 
 function generateQuestionResults(){
-  $('.question').empty();
+  clearAllForms();
   return generateQuestions();
 }
+
 function generateQuestions(){
   return  ` 
   <div class="row">
     <div class="col-12">
-      <h1> Question: ${STORE.currentQuestion + 1}</h1>
+      <h1> Question ${STORE.currentQuestion + 1}</h1>
       <p> Your current score is ${STORE.score} out of ${STORE.currentView === 'question' ? STORE.currentQuestion : STORE.currentQuestion + 1} </p>
       <div class = 'questionBox'>
         <h2> ${questions[STORE.currentQuestion].text}</h2>
@@ -142,9 +147,7 @@ function renderCorrect(){
 function renderResults(){
   // update HTML based on STORE
   console.log('rendering final results page');
-  $('.home').empty();
-  $('.question').empty();
-  $('.question-results').empty();
+  clearAllForms();
   $('.end-results').html(generateEndResultsHtml());
 }
 
