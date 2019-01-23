@@ -162,11 +162,6 @@ function generateEndResultsHtml(){
   </div>`;
 }
 
-function renderQuestion(){
-  // show current question and display options to user. 
-  
-}
-
 function handleStart(){
   // update the current view to question, set current Question to 0, then render the page again. 
   $('.home').on('submit', '.js-start-quiz', function(ev){
@@ -236,10 +231,8 @@ function main(){
   render();
   handleStart();
   currentQuestionCount();
-  renderQuestion();
   handleQuestionSubmit();
   handleNextQuestion();
-  
   handleRestartClick();
 }
 
