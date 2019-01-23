@@ -52,10 +52,6 @@ function render(){
   }
 }
 
-function resetStore(){
-  
-}
-
 function renderHomeView(){
   $('.question-results').empty();
   $('.question').empty();
@@ -167,7 +163,7 @@ function renderQuestion(){
 
 function handleStart(){
   // update the current view to question, set current Question to 0, then render the page again. 
-  $('.js-start-quiz').on('submit', function(ev){
+  $('.home').on('submit', '.js-start-quiz', function(ev){
     console.log('test');
     ev.preventDefault();
     STORE.currentView = 'question';
@@ -196,23 +192,9 @@ function handleQuestionSubmit(){
     render();
   });
 }
-function handleFinalResults(){
-  $('.question').on('submit', '#btn', function(ev){
-    ev.preventDefault();
-    console.log('handled final');
-    render();
-  });
-}
 
 function checkAnswer(){
   return STORE.userAnswer === questions[STORE.currentQuestion].correct;
-
-  // if(STORE.userAnswer === questions[STORE.currentQuestion].correct){
-  // STORE.score++;
-  //   return true;
-  // } else {
-  //   return false;
-  // }
 }
 
 function handleNextQuestion(){
@@ -230,19 +212,19 @@ function handleNextQuestion(){
 }
 function handleRestartClick(){
   $('.end-results').on('click', '#restartBtn', function(ev){
-  ev.preventDefault();
-  STORE.currentView = 'home';
-  STORE.userAnswer = 'null';
-  STORE.currentQuestion = 'null';
-  STORE.score = 0;
-  render();
+    ev.preventDefault();
+    STORE.currentView = 'home';
+    STORE.userAnswer = 'null';
+    STORE.currentQuestion = 'null';
+    STORE.score = 0;
+    render();
   });
 }
-function handleRestart(ev){
-  // Set STORE back to default, then render the page again. 
-  // run currentQuestionCount();
+// function handleRestart(ev){
+//   // Set STORE back to default, then render the page again. 
+//   // run currentQuestionCount();
   
-}
+// }
 
 function main(){
   render();
