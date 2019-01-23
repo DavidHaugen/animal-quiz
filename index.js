@@ -152,6 +152,7 @@ function renderCorrect(){
   $(`#label${questions[STORE.currentQuestion].correct.toString()}`).addClass('userCorrect');
 }
 
+
 function checkAnswer(){
   return STORE.userAnswer === questions[STORE.currentQuestion].correct;
 }
