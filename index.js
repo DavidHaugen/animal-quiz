@@ -31,25 +31,26 @@ const STORE = {
 };
 
 function render(){
+  clearAllForms();
   // check current view (home, question, question-results, results) and runs correct render function
   if(STORE.currentView === 'home'){
     console.log('rendering home view');
     renderHomeView();
   } else if(STORE.currentView === 'question'){
     console.log('rendering question view');
-    $('.question').html(renderQuestionView());
-    // if(STORE.currentQuestion === 4){
-    //   $('#btn').prop('value', 'View Results');
-    // }
+    renderQuestionView();
   }
-  else if(STORE.currentView === 'question-results'){
+   else if(STORE.currentView === 'question-results'){
     console.log('rendering question-results view');
-    $('.question-results').html(generateQuestionResults());
     renderQuestionResults();
   } else if (STORE.currentView === 'end-results'){
     console.log('this is the end');
     renderResults();
   }
+}
+
+function renderQuestionView(){
+  $('.question').html(generateHtmlText());
 }
 
 function clearAllForms(){
@@ -60,7 +61,7 @@ function clearAllForms(){
 }
 
 function renderHomeView(){
-  clearAllForms();
+  // clearAllForms();
   $('.home').html(generateHomeView());
   // update HTML based on STORE
 }
@@ -77,15 +78,7 @@ function generateHomeView(){
   </div>`;
 }
 
-function renderQuestionView(){
-  // update HTML based on STORE. Display that value +1 to the user.
-  clearAllForms();
-
-  return generateQuestions();
-}
-
-function generateQuestionResults(){
-  clearAllForms();
+function generateHtmlText(){
   return generateQuestions();
 }
 
@@ -125,13 +118,14 @@ function generateButtonWord(){
 }
 
 function renderQuestionResults(){
-  // return checkAnswer() ? renderCorrect() : renderIncorrect();
+  $('.question-results').html(generateHtmlText());
+
   if(checkAnswer()){
     STORE.score++;
-    $('.question-results').html(generateQuestionResults());
     renderCorrect();
-  } else 
+  } else {
     renderIncorrect();
+  }
 
   $('input[type=radio]').attr('disabled', true);
 
@@ -141,8 +135,8 @@ function renderQuestionResults(){
   // css highlight red to userAnswer && highlight correct
  
 }
+
 function renderIncorrect(){
-  //STORE.userAnswer
   console.log('Nope');
   $(`#label${STORE.userAnswer}`).addClass('strikethrough');
   $(`#label${questions[STORE.currentQuestion].correct.toString()}`).addClass('correctAnswer');
@@ -195,8 +189,6 @@ function handleQuestionSubmit(){
     ev.preventDefault();
     STORE.userAnswer = parseInt($('input:checked').attr('data-index'), 10);
     STORE.currentView = 'question-results';
-    console.log(STORE.userAnswer);
-    
     render();
   });
 }
