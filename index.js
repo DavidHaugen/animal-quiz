@@ -38,12 +38,16 @@ function render(){
   } else if(STORE.currentView === 'question'){
     console.log('rendering question view');
     $('.question').html(renderQuestionView());
+    if(STORE.currentQuestion === 4){
+      $("#btn").prop('value', 'View Results');
+    }
   }
   else if(STORE.currentView === 'question-results'){
     console.log('rendering question-results view');
     $('.question-results').html(generateQuestionResults());
     renderQuestionResults();
   } else {
+    console.log("this is the end");
     renderResults();
   }
 }
@@ -71,7 +75,7 @@ function renderQuestionView(){
     <label for="option3" id = 'label2'>${questions[STORE.currentQuestion].answers[2]}</label><br>
     <input type="radio" name="question" value="4" id="option4" data-index = 3> 
     <label for="option4" id = 'label3'>${questions[STORE.currentQuestion].answers[3]}</label><br>
-   <input type="submit" value = "Next Question">
+   <input type="submit" id="btn" value = "Next Question">
   </form> `;
 }
 
@@ -105,9 +109,7 @@ function renderQuestionResults(){
   } else {
     renderIncorrect();
   }
-  if(STORE.currentQuestion === 4){
-    $("#btn").text('View Results');
-  }
+  
   $('input[type=radio]').attr('disabled', true);
 
   // update HTML based on STORE
@@ -172,8 +174,18 @@ function handleQuestionSubmit(){
     STORE.userAnswer = parseInt($('input:checked').attr('data-index'), 10);
     STORE.currentView = 'question-results';
     console.log(STORE.userAnswer);
+    if(STORE.currentQuestion === 4){
+      STORE.currentView = 'end-results';
+    }
     render();
   });
+}
+function handleFinalResults(){
+  $('.question').on('submit', '#btn', function(ev){
+    ev.preventDefault();
+    console.log('handled final');
+    render();
+  })
 }
 
 
@@ -219,6 +231,7 @@ function main(){
   renderQuestion();
   handleQuestionSubmit();
   handleNextQuestion();
+  handleFinalResults();
 }
 
 $(main);
