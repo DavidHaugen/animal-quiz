@@ -1,6 +1,6 @@
 body{
     padding-top: 80px;
-    background-color: #ffdca8;
+    background-color: #e7d1ae;
     font-family: Arial, Helvetica, sans-serif;
     color: #4F5A65
 }
@@ -19,8 +19,8 @@ body{
     content: "The correct answer was:    ";
 }
 
-.userCorrect::before{
-    content: "You got it! This was correct:  ";
+.userCorrect::after{
+    content: "     You got it!";
     color: #28a228;
 }
 
@@ -34,6 +34,10 @@ div{
 button{
     border-radius: 4px;
     border-style: solid;
+    width: 150px;
+    height: 40px;
+    color: #3e3e3e;
+    font-size: 18px;
 }
 
 .questionBox{
@@ -41,8 +45,8 @@ button{
 }
 
 .nextButton{
-    margin-top: 10px;
-    margin-left: 20px;
+    margin-top: 25px;
+    margin-left: 30px;
 
 }
 
