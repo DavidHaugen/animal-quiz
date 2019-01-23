@@ -52,9 +52,23 @@ function render(){
   }
 }
 
+function resetStore(){
+  
+}
 
 function renderHomeView(){
+  $('.question-results').empty();
+  $('.question').empty();
+  $('.end-results').empty();
+  $('.home').html(generateHomeView());
   // update HTML based on STORE
+}
+
+function generateHomeView(){
+  return `<h1 role="header">Animal quiz!</h1>
+  <form class = 'js-start-quiz'>
+      <button type="submit" id = 'start-button'>Start Quiz</button>
+  </form>`;
 }
 
 function renderQuestionView(){
@@ -142,7 +156,8 @@ function renderResults(){
 function generateEndResultsHtml(){
   return `
   <h2>You got ${STORE.score} out of ${STORE.currentQuestion + 1} questions right!<h2>
-  <p>Want to try again?</p>`;
+  <p>Want to try again?</p>
+  <button id="restartBtn">Replay</button>`;
 }
 
 function renderQuestion(){
@@ -213,16 +228,21 @@ function handleNextQuestion(){
     render();
   });
 }
-
-// function handleRestart(){
-//   // Set STORE back to default, then render the page again. 
-//   // run currentQuestionCount();
-//   STORE.currentView = 'home';
-//   STORE.userAnswer = 'null';
-//   STORE.currentQuestion = 'null';
-//   STORE.score = 0;
-//   render();
-// }
+function handleRestartClick(){
+  $('.end-results').on('click', '#restartBtn', function(ev){
+  ev.preventDefault();
+  STORE.currentView = 'home';
+  STORE.userAnswer = 'null';
+  STORE.currentQuestion = 'null';
+  STORE.score = 0;
+  render();
+  });
+}
+function handleRestart(ev){
+  // Set STORE back to default, then render the page again. 
+  // run currentQuestionCount();
+  
+}
 
 function main(){
   render();
@@ -231,7 +251,8 @@ function main(){
   renderQuestion();
   handleQuestionSubmit();
   handleNextQuestion();
-  handleFinalResults();
+  
+  handleRestartClick();
 }
 
 $(main);
