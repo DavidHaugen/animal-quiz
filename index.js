@@ -38,9 +38,9 @@ function render(){
   } else if(STORE.currentView === 'question'){
     console.log('rendering question view');
     $('.question').html(renderQuestionView());
-    if(STORE.currentQuestion === 4){
-      $('#btn').prop('value', 'View Results');
-    }
+    // if(STORE.currentQuestion === 4){
+    //   $('#btn').prop('value', 'View Results');
+    // }
   }
   else if(STORE.currentView === 'question-results'){
     console.log('rendering question-results view');
@@ -106,13 +106,23 @@ function generateQuestions(){
           <label for="option3" id = 'label2'>${questions[STORE.currentQuestion].answers[2]}</label><br>
           <input type="radio" name="question" value="4" id="option4" data-index = 3> 
           <label for="option4" id = 'label3'>${questions[STORE.currentQuestion].answers[3]}</label><br>
-          <button type="submit" id="btn" class = 'nextButton'>Next Question</button>
+          <button type="submit" id="btn" class = 'nextButton'>${generateButtonWord()}</button>
         </form> 
       </div>
     </div>
   </div>`;
 }
 
+function generateButtonWord(){
+  let word;
+  if(STORE.currentQuestion === 4 ) 
+    word = 'View Results';
+  else if(STORE.currentView === 'question-results')
+    word = 'Next Question';
+  else 
+   word = 'View Answer';
+  return word;
+}
 function renderQuestionResults(){
   // return checkAnswer() ? renderCorrect() : renderIncorrect();
 
