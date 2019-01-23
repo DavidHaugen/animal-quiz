@@ -40,7 +40,7 @@ function render(){
     console.log('rendering question view');
     renderQuestionView();
   }
-   else if(STORE.currentView === 'question-results'){
+  else if(STORE.currentView === 'question-results'){
     console.log('rendering question-results view');
     renderQuestionResults();
   } else if (STORE.currentView === 'end-results'){
@@ -49,8 +49,31 @@ function render(){
   }
 }
 
+function renderHomeView(){
+  // clearAllForms();
+  $('.home').html(generateHomeView());
+  // update HTML based on STORE
+}
+
 function renderQuestionView(){
   $('.question').html(generateHtmlText());
+}
+
+function renderQuestionResults(){
+  $('.question-results').html(generateHtmlText());
+  if(checkAnswer()){
+    STORE.score++;
+    renderCorrect();
+  } else {
+    renderIncorrect();
+  }
+  $('input[type=radio]').attr('disabled', true);
+}
+
+function renderResults(){
+  // update HTML based on STORE
+  console.log('rendering final results page');
+  $('.end-results').html(generateEndResultsHtml());
 }
 
 function clearAllForms(){
@@ -58,12 +81,6 @@ function clearAllForms(){
   $('.question-results').empty();
   $('.question').empty();
   $('.end-results').empty();
-}
-
-function renderHomeView(){
-  // clearAllForms();
-  $('.home').html(generateHomeView());
-  // update HTML based on STORE
 }
 
 function generateHomeView(){
@@ -79,10 +96,6 @@ function generateHomeView(){
 }
 
 function generateHtmlText(){
-  return generateQuestions();
-}
-
-function generateQuestions(){
   return  ` 
   <div class="row">
     <div class="col-12">
@@ -106,6 +119,17 @@ function generateQuestions(){
   </div>`;
 }
 
+function generateEndResultsHtml(){
+  return `
+  <div class="row">
+  <div class="col-12">
+  <h2>You got ${STORE.score} out of ${STORE.currentQuestion} questions right!<h2>
+  <p>Want to try again?</p>
+  <button id="restartBtn">Replay</button>
+  </div>
+  </div>`;
+}
+
 function generateButtonWord(){
   let word;
   if(STORE.currentQuestion === 4 && STORE.currentView === 'question-results') 
@@ -113,27 +137,8 @@ function generateButtonWord(){
   else if(STORE.currentView === 'question-results')
     word = 'Next Question';
   else 
-   word = 'View Answer';
+    word = 'View Answer';
   return word;
-}
-
-function renderQuestionResults(){
-  $('.question-results').html(generateHtmlText());
-
-  if(checkAnswer()){
-    STORE.score++;
-    renderCorrect();
-  } else {
-    renderIncorrect();
-  }
-
-  $('input[type=radio]').attr('disabled', true);
-
-  // update HTML based on STORE
-  // add class highlight to correct answer
- 
-  // css highlight red to userAnswer && highlight correct
- 
 }
 
 function renderIncorrect(){
@@ -147,22 +152,8 @@ function renderCorrect(){
   $(`#label${questions[STORE.currentQuestion].correct.toString()}`).addClass('userCorrect');
 }
 
-function renderResults(){
-  // update HTML based on STORE
-  console.log('rendering final results page');
-  clearAllForms();
-  $('.end-results').html(generateEndResultsHtml());
-}
-
-function generateEndResultsHtml(){
-  return `
-  <div class="row">
-  <div class="col-12">
-  <h2>You got ${STORE.score} out of ${STORE.currentQuestion} questions right!<h2>
-  <p>Want to try again?</p>
-  <button id="restartBtn">Replay</button>
-  </div>
-  </div>`;
+function checkAnswer(){
+  return STORE.userAnswer === questions[STORE.currentQuestion].correct;
 }
 
 function handleStart(){
@@ -176,11 +167,6 @@ function handleStart(){
   });
 }
 
-function currentQuestionCount(){
-  // check Store for currentQuestion.  
-  return STORE.currentQuestion;
-}
-
 function handleQuestionSubmit(){
   // set up event listener on button, run check answer function. If question count === 4, 
   // change view to results. Otherwise, change view to question-results. 
@@ -191,10 +177,6 @@ function handleQuestionSubmit(){
     STORE.currentView = 'question-results';
     render();
   });
-}
-
-function checkAnswer(){
-  return STORE.userAnswer === questions[STORE.currentQuestion].correct;
 }
 
 function handleNextQuestion(){
@@ -211,6 +193,7 @@ function handleNextQuestion(){
     render();
   });
 }
+
 function handleRestartClick(){
   $('.end-results').on('click', '#restartBtn', function(ev){
     ev.preventDefault();
@@ -221,20 +204,13 @@ function handleRestartClick(){
     render();
   });
 }
-// function handleRestart(ev){
-//   // Set STORE back to default, then render the page again. 
-//   // run currentQuestionCount();
-  
-// }
 
 function main(){
   render();
   handleStart();
-  currentQuestionCount();
   handleQuestionSubmit();
   handleNextQuestion();
   handleRestartClick();
 }
 
 $(main);
-///comment
