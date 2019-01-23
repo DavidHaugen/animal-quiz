@@ -115,7 +115,7 @@ function generateQuestions(){
 
 function generateButtonWord(){
   let word;
-  if(STORE.currentQuestion === 4 ) 
+  if(STORE.currentQuestion === 4 && STORE.currentView === 'question-results') 
     word = 'View Results';
   else if(STORE.currentView === 'question-results')
     word = 'Next Question';
@@ -123,17 +123,16 @@ function generateButtonWord(){
    word = 'View Answer';
   return word;
 }
+
 function renderQuestionResults(){
   // return checkAnswer() ? renderCorrect() : renderIncorrect();
-
   if(checkAnswer()){
     STORE.score++;
     $('.question-results').html(generateQuestionResults());
     renderCorrect();
-  } else {
+  } else 
     renderIncorrect();
-  }
-  
+
   $('input[type=radio]').attr('disabled', true);
 
   // update HTML based on STORE
@@ -165,7 +164,7 @@ function generateEndResultsHtml(){
   return `
   <div class="row">
   <div class="col-12">
-  <h2>You got ${STORE.score} out of ${STORE.currentQuestion + 1} questions right!<h2>
+  <h2>You got ${STORE.score} out of ${STORE.currentQuestion} questions right!<h2>
   <p>Want to try again?</p>
   <button id="restartBtn">Replay</button>
   </div>
@@ -197,9 +196,7 @@ function handleQuestionSubmit(){
     STORE.userAnswer = parseInt($('input:checked').attr('data-index'), 10);
     STORE.currentView = 'question-results';
     console.log(STORE.userAnswer);
-    if(STORE.currentQuestion === 4){
-      STORE.currentView = 'end-results';
-    }
+    
     render();
   });
 }
@@ -215,7 +212,8 @@ function handleNextQuestion(){
     console.log('moving on...');
     STORE.currentQuestion++;
     if (STORE.currentQuestion === 5){
-      STORE.currentView = 'results';
+      STORE.currentView = 'end-results';
+      render();
     } else{
       STORE.currentView = 'question';}
     render();
