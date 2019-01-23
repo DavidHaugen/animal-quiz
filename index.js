@@ -91,7 +91,7 @@ function generateQuestionResults(){
       <label for="option3" id = 'label2'>${questions[STORE.currentQuestion].answers[2]}</label><br>
       <input type="radio" name="question" value="4" id="option4" data-index = 3> 
       <label for="option4" id = 'label3'>${questions[STORE.currentQuestion].answers[3]}</label><br>
-     <input type="submit" value = "Next Question">
+      <button type="submit" id="btn">Next Question</button>
     </form> `;
 }
 
@@ -102,10 +102,11 @@ function renderQuestionResults(){
     STORE.score++;
     $('.question-results').html(generateQuestionResults());
     renderCorrect();
-
   } else {
     renderIncorrect();
-
+  }
+  if(STORE.currentQuestion === 4){
+    $("#btn").text('View Results');
   }
   $('input[type=radio]').attr('disabled', true);
 
