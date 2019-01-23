@@ -71,7 +71,7 @@ function renderQuestionView(){
     <label for="option3" id = 'label2'>${questions[STORE.currentQuestion].answers[2]}</label><br>
     <input type="radio" name="question" value="4" id="option4" data-index = 3> 
     <label for="option4" id = 'label3'>${questions[STORE.currentQuestion].answers[3]}</label><br>
-   <button type="submit">Submit answer</button>
+   <input type="submit" value = "Next Question">
   </form> `;
 }
 
@@ -85,7 +85,7 @@ function generateQuestionResults(){
     <form class = 'js-question-results-form'>
       <input type="radio" name="question" value="1" id="option1" data-index = 0 required> 
       <label for ="option1" id = 'label0'> ${questions[STORE.currentQuestion].answers[0]}</label> <br>
-      <input type="radio" name="question" value="2" id="option2" data-index = 1> 
+      <input type="radio" name="question" value="2" id="option2" data-index = 1 > 
       <label for = 'option2' id = 'label1'>${questions[STORE.currentQuestion].answers[1]}</label><br>
       <input type="radio" name="question" value="3" id="option3" data-index = 2> 
       <label for="option3" id = 'label2'>${questions[STORE.currentQuestion].answers[2]}</label><br>
@@ -195,22 +195,22 @@ function handleNextQuestion(){
     console.log('moving on...');
     STORE.currentQuestion++;
     if (STORE.currentQuestion === 5){
-      STORE.currentView = 'results'
+      STORE.currentView = 'results';
     } else{
       STORE.currentView = 'question';}
     render();
   });
 }
 
-function handleRestart(){
-  // Set STORE back to default, then render the page again. 
-  // run currentQuestionCount();
-  STORE.currentView = 'home';
-  STORE.userAnswer = 'null';
-  STORE.currentQuestion = 'null';
-  STORE.score = 0;
-  render();
-}
+// function handleRestart(){
+//   // Set STORE back to default, then render the page again. 
+//   // run currentQuestionCount();
+//   STORE.currentView = 'home';
+//   STORE.userAnswer = 'null';
+//   STORE.currentQuestion = 'null';
+//   STORE.score = 0;
+//   render();
+// }
 
 function main(){
   render();
